@@ -1,12 +1,11 @@
 package game;
 
+
 import java.awt.*;
 import javax.swing.*;
 
 public class Minesweeper extends JFrame {
     private JLabel status;
-    private GUI gui;
-
 
     public Minesweeper() {
 
@@ -14,7 +13,7 @@ public class Minesweeper extends JFrame {
 
         status = new JLabel("");
         add(status, BorderLayout.SOUTH);
-        add(new Board(status, gui));
+        add(new Board(status));
         setResizable(false);
         pack();
         setTitle("Minesweeper");
