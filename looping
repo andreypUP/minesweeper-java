@@ -1,0 +1,147 @@
+        +-------------------+
+        |   findEmptyCell   |
+        +-------------------+
+                 |
+                 v
+       +-----------------+
+       | Calculate       |
+       | current_col     |
+       +-----------------+
+                 |
+                 v
+        +-------------------+
+        | current_col > 0 ? |
+        +-------------------+
+        |                 |
+        | Yes             | No
+        v                 |
++-------------------+     |
+| Check cells in    |     |
+| left column       |     |
++-------------------+     |
+        |                 |
+        v                 |
+  +----------------+       |
+  | Check cells    |       |
+  | above and      |       |
+  | below          |       |
+  +----------------+       |
+        |                 |
+        v                 |
++-------------------+     |
+| Check cells in    |     |
+| right column      |     |
++-------------------+     |
+        |                 |
+        v                 |
+   +-----------------+     |
+   | Return          |     |
+   +-----------------+     |
+                 |         |
+                 v         |
+       +-----------------+ |
+       | emptyCellChecker| |
+       +-----------------+ |
+                 |         |
+                 v         |
+        +------------------+
+        | field[cell] >    |
+        | cellMine ?       |
+        +------------------+
+        |                  |
+        | Yes              | No
+        v                  |
+   +-----------------+     |
+   | Uncover cell    |     |
+   | if covered      |     |
+   +-----------------+     |
+        |                  |
+        v                  |
++---------------------+    |
+| field[cell] ==       |    |
+| cellEmpty ?          |    |
++---------------------+    |
+        |                  |
+        v                  |
+   +-----------------+     |
+   | findEmptyCell   |     |
+   | (recursive call)|     |
+   +-----------------+     |
+        |                  |
+        v                  |
+  +-------------------+    |
+  | Return            |    |
+  +-------------------+    |
+                 |         |
+                 v         |
+       +-----------------+ |
+       | Update cell     | |
+       +-----------------+ |
+                 |         |
+                 v         |
+        +------------------+
+        | Iterate to next  |
+        | cell             |
+        +------------------+
+
+
+
+Here's an example iteration of the findEmptyCell method:
+
+Input: clickedCell = 12 (corresponds to row 2, column 2 in the grid)
+
+Calculate current_col = 12 % 5 = 2.
+Check cells in the left column:
+
+cell = clickedCell - cols - 1 = 12 - 5 - 1 = 6 (top-left cell).
+
+Call emptyCellChecker(6).
+Check field[6]: If it's covered (> cellMine), mark it as uncovered.
+If field[6] is an empty cell (== cellEmpty), call findEmptyCell(6).
+cell = clickedCell - 1 = 12 - 1 = 11 (left cell).
+
+Call emptyCellChecker(11).
+Check field[11]: If it's covered (> cellMine), mark it as uncovered.
+If field[11] is an empty cell (== cellEmpty), call findEmptyCell(11).
+cell = clickedCell + cols - 1 = 12 + 5 - 1 = 16 (bottom-left cell).
+
+Check if cell is within the grid bounds (less than allCells).
+If within bounds, call emptyCellChecker(16).
+Check field[16]: If it's covered (> cellMine), mark it as uncovered.
+If field[16] is an empty cell (== cellEmpty), call findEmptyCell(16).
+Check cells above and below:
+
+cell = clickedCell - cols = 12 - 5 = 7 (top cell).
+
+Call emptyCellChecker(7).
+Check field[7]: If it's covered (> cellMine), mark it as uncovered.
+If field[7] is an empty cell (== cellEmpty), call findEmptyCell(7).
+cell = clickedCell + cols = 12 + 5 = 17 (bottom cell).
+
+Check if cell is within the grid bounds (less than allCells).
+If within bounds, call emptyCellChecker(17).
+Check field[17]: If it's covered (> cellMine), mark it as uncovered.
+If field[17] is an empty cell (== cellEmpty), call findEmptyCell(17).
+Check cells in the right column:
+
+cell = clickedCell - cols + 1 = 12 - 5 + 1 = 8 (top-right cell).
+
+Check if cell is within the grid bounds (less than allCells).
+If within bounds, call emptyCellChecker(8).
+Check field[8]: If it's covered (> cellMine), mark it as uncovered.
+If field[8] is an empty cell (== cellEmpty), call findEmptyCell(8).
+cell = clickedCell + cols + 1 = 12 + 5 + 1 = 18 (bottom-right cell).
+
+Check if cell is within the grid bounds (less than allCells).
+If within bounds, call emptyCellChecker(18).
+Check field[18]: If it's covered (> cellMine), mark it as uncovered.
+If field[18] is an empty cell (== cellEmpty), call findEmptyCell(18).
+cell = clickedCell + 1 = 12 + 1 = 13 (right cell).
+
+Check if cell is within the grid bounds (less than allCells).
+If within bounds, call emptyCellChecker(13).
+Check field[13]: If it's covered (> cellMine), mark it as uncovered.
+If field[13] is an empty cell (== cellEmpty), call findEmptyCell(13).
+This example demonstrates the process of uncovering cells and recursively exploring
+neighboring cells until no more empty cells are found. The specific iterations may
+ vary depending on the grid layout and the initial distribution of mines.

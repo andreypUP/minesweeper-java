@@ -27,9 +27,9 @@ public class Board extends JPanel{
     private final int drawWrongFlag = 12;
 
 
-    private final int numbOfMines = 10;
-    private final int rows = 6;
-    private final int cols = 6;
+    private final int numbOfMines = 40;
+    private final int rows = 16;
+    private final int cols = 16;
 
     private final int boardWidth = cols * cellSize + 1;
     private final int boardHeight = rows * cellSize + 1;
@@ -93,44 +93,44 @@ public class Board extends JPanel{
         if (current_col > 0) {
             cell = clickedCell - cols - 1;
             if (cell >= 0) {
-                doFindEmptyCell(cell);
+                emptyCellChecker(cell);
             }
 
             cell = clickedCell - 1;
             if (cell >= 0) {
-                doFindEmptyCell(cell);
+                emptyCellChecker(cell);
             }
 
             cell = clickedCell + cols - 1;
             if (cell < allCells) {
-                doFindEmptyCell(cell);
+                emptyCellChecker(cell);
             }
         }
 
-        cell = clickedCell - cols;
+        cell = clickedCell - cols; //SUBTRACT LEFT AND COLUMN = TOP OF LEFT (TOP-LEFT OF ORIGINAL CLICKED BOX)
         if (cell >= 0) {
-            doFindEmptyCell(cell);
+            emptyCellChecker(cell);
         }
 
-        cell = clickedCell + cols;
+        cell = clickedCell + cols; //ADD LEFT AND COLUMN
         if (cell < allCells) {
-            doFindEmptyCell(cell);
+            emptyCellChecker(cell);
         }
 
         if (current_col < (cols - 1)) {
             cell = clickedCell - cols + 1;
             if (cell >= 0) {
-                doFindEmptyCell(cell);
+                emptyCellChecker(cell);
             }
 
             cell = clickedCell + cols + 1;
             if (cell < allCells) {
-                doFindEmptyCell(cell);
+                emptyCellChecker(cell);
             }
 
             cell = clickedCell + 1;
             if (cell < allCells) {
-                doFindEmptyCell(cell);
+                emptyCellChecker(cell);
             }
         }
 
@@ -253,7 +253,7 @@ public class Board extends JPanel{
                         }
 
                         if (field[(cRow * cols) + cCol] == cellEmpty) {
-                            findEmptyCell((cRow * cols) + cCol);
+                            findEmptyCell((cRow * cols) + cCol); //UPDATE CLICKEDCELL
                         }
                     }
                 }
@@ -265,7 +265,7 @@ public class Board extends JPanel{
         }
     }
 
-    public void doFindEmptyCell(int cell) {
+    public void emptyCellChecker(int cell) {
         if (field[cell] > cellMine) {
             field[cell] -= cellCover;
             if (field[cell] == cellEmpty) {
