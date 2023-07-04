@@ -9,9 +9,9 @@ public class Minesweeper extends JFrame {
 
     public Minesweeper() {
 
-        ImageIcon icon = new ImageIcon("src//resources//9.png");
+        ImageIcon icon = new ImageIcon("src//resources//13.png");
 
-        status = new JLabel("");
+        status = new JLabel("Status");
         add(status, BorderLayout.SOUTH);
         add(new Board(status));
         setResizable(false);
@@ -22,8 +22,5 @@ public class Minesweeper extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        Minesweeper ms = new Minesweeper();
-        ms.setVisible(true);
-    }
+
 }

@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 public class Board extends JPanel{
 
     private final int numOfImages = 13;
@@ -60,9 +61,9 @@ public class Board extends JPanel{
             var path = "src/resources/" + i + ".png";
             img[i] = (new ImageIcon(path)).getImage();
         }
-
-        addMouseListener(new MinesAdapter());
         newGame();
+        addMouseListener(new MinesAdapter());
+
     }
 
     private void newGame() {
@@ -148,35 +149,35 @@ public class Board extends JPanel{
 
                 int cell = field[(i * cols) + j];
 
-                if (inGame && cell == cellMine) {
+                if (inGame && cell == cellMine) { //IN GAME AND CLICKED MINE
 
-                    inGame = false;
+                    inGame = false; //STOP GAME
                 }
 
                 if (!inGame) {
 
                     if (cell == coveredCellMine) {
-                        cell = drawMine;
+                        cell = drawMine; //REVEAL ALL MINES AFTER IN GAME = FALSE
                     } else if (cell == flaggedCellMine) {
-                        cell = drawFlag;
+                        cell = drawFlag; //SHOW IF FLAG IS CORRECT
                     } else if (cell > coveredCellMine) {
-                        cell = drawWrongFlag;
+                        cell = drawWrongFlag; //SHOW IF FLAG IS WRONG OR FLAGGED MINE HAS A MINE
                     } else if (cell > cellMine) {
-                        cell = drawCover;
+                        cell = drawCover; //UNCOVERED EMPTY CELL REMAINS UNCOVERED
                     }
 
-                } else {
+                } else { //GAME IN PROGRESS
 
-                    if (cell > coveredCellMine) {
+                    if (cell > coveredCellMine) { //FLAGGED ALL POSSIBLE BOXES (EMPTY CELL -> TO MINES)
                         cell = drawFlag;
                     } else if (cell > cellMine) {
                         cell = drawCover;
                         uncover++;
+                        System.out.println(uncover);
                     }
                 }
 
-                g.drawImage(img[cell], (j * cellSize),
-                        (i * cellSize), this);
+                g.drawImage(img[cell], (j * cellSize), (i * cellSize), this);
             }
         }
 
