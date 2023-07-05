@@ -1,8 +1,10 @@
 package game;
 
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class Minesweeper extends JFrame {
     private JLabel status;

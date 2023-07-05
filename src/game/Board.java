@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel{
 
-    private final int numOfImages = 13;
+    private final int numberOfImage = 13;
     private final int cellSize = 15;
 
     private final int cellCover = 10;
@@ -27,22 +27,22 @@ public class Board extends JPanel{
     private final int drawWrongFlag = 12;
 
 
-    private final int numbOfMines = 254;
-    private final int rows = 16;
-    private final int cols = 16;
+    private final int numberOfMines = 40;
+    private final int numberOfRows = 16;
+    private final int numberOfColumns = 16;
 
-    private final int boardWidth = cols * cellSize + 1;
-    private final int boardHeight = rows * cellSize + 1;
+    private final int boardWidth = numberOfColumns * cellSize + 1;
+    private final int boardHeight = numberOfRows * cellSize + 1;
 
 
     private int[] field;
     private boolean inGame;
     private int minesLeft;
-    private Image[] img;
+    private Image[] images;
     private int allCells;
     private final JLabel status;
-    private int counter;
-    private int loc;
+    private int clickCounter;
+    private int locationOfFirstClickedCell;
 
     public Board(JLabel status) {
 
@@ -55,22 +55,22 @@ public class Board extends JPanel{
     private void initBoard() {
 
         setPreferredSize(new Dimension(boardWidth, boardHeight));
-        img = new Image[numOfImages];
+        images = new Image[numberOfImage];
 
-        for (int i = 0; i < numOfImages; i++) {
+        for (int i = 0; i < numberOfImage; i++) {
             var path = "src/resources/" + i + ".png";
-            img[i] = (new ImageIcon(path)).getImage();
+            images[i] = (new ImageIcon(path)).getImage();
         }
         newGame();
         addMouseListener(new MinesAdapter());
     }
 
     private void newGame() {
-        counter = 0;
+        clickCounter = 0;
         inGame = true;                  //GAME IN PROGRESS
-        minesLeft = numbOfMines;
+        minesLeft = numberOfMines;
 
-        allCells = rows * cols;         //TOTAL CELL ON THE BOARD
+        allCells = numberOfRows * numberOfColumns;         //TOTAL CELL ON THE BOARD
         field = new int[allCells];      //STORE THE STATE OF EACH CELL
 
         for (int i = 0; i < allCells; i++) {
@@ -83,11 +83,11 @@ public class Board extends JPanel{
     }
     private void findEmptyCell(int clickedCell) {
 
-        int current_col = clickedCell % cols;
+        int current_col = clickedCell % numberOfColumns;
         int cell;
 
         if (current_col > 0) {
-            cell = clickedCell - cols - 1;
+            cell = clickedCell - numberOfColumns - 1;
             if (cell >= 0) {
                 emptyCellChecker(cell);
             }
@@ -97,29 +97,29 @@ public class Board extends JPanel{
                 emptyCellChecker(cell);
             }
 
-            cell = clickedCell + cols - 1;
+            cell = clickedCell + numberOfColumns - 1;
             if (cell < allCells) {
                 emptyCellChecker(cell);
             }
         }
 
-        cell = clickedCell - cols; //SUBTRACT LEFT AND COLUMN = TOP OF LEFT (TOP-LEFT OF ORIGINAL CLICKED BOX)
+        cell = clickedCell - numberOfColumns; //SUBTRACT LEFT AND COLUMN = TOP OF LEFT (TOP-LEFT OF ORIGINAL CLICKED BOX)
         if (cell >= 0) {
             emptyCellChecker(cell);
         }
 
-        cell = clickedCell + cols; //ADD LEFT AND COLUMN
+        cell = clickedCell + numberOfColumns; //ADD LEFT AND COLUMN
         if (cell < allCells) {
             emptyCellChecker(cell);
         }
 
-        if (current_col < (cols - 1)) {
-            cell = clickedCell - cols + 1;
+        if (current_col < (numberOfColumns - 1)) {
+            cell = clickedCell - numberOfColumns + 1;
             if (cell >= 0) {
                 emptyCellChecker(cell);
             }
 
-            cell = clickedCell + cols + 1;
+            cell = clickedCell + numberOfColumns + 1;
             if (cell < allCells) {
                 emptyCellChecker(cell);
             }
@@ -138,11 +138,11 @@ public class Board extends JPanel{
 
         int uncover = 0;
 
-        for (int i = 0; i < rows; i++) { //UP TO ROWS (HORIZONTALLY)
+        for (int i = 0; i < numberOfRows; i++) { //UP TO ROWS (HORIZONTALLY)
 
-            for (int j = 0; j < cols; j++) { //UP TO COLUMN (VERTICALLY)
+            for (int j = 0; j < numberOfColumns; j++) { //UP TO COLUMN (VERTICALLY)
 
-                int cell = field[(i * cols) + j];
+                int cell = field[(i * numberOfColumns) + j];
 
                 if (inGame && cell == cellMine) { //IN GAME AND CLICKED MINE
 
@@ -152,11 +152,11 @@ public class Board extends JPanel{
                 if (!inGame) {
 
                     if (cell == coveredCellMine) {
-                        cell = drawMine; //REVEAL ALL MINES AFTER IN GAME = FALSE
+                        cell = drawMine; //REVEAL ALL MINES AFTER inGame == FALSE
                     } else if (cell == flaggedCellMine) {
                         cell = drawFlag; //SHOW IF FLAG IS CORRECT
                     } else if (cell > coveredCellMine) {
-                        cell = drawWrongFlag; //SHOW IF FLAG IS WRONG OR FLAGGED MINE HAS A MINE
+                        cell = drawWrongFlag; //SHOW IF FLAG IS WRONG
                     } else if (cell > cellMine) {
                         cell = drawCover; //UNCOVERED EMPTY CELL REMAINS UNCOVERED
                     }
@@ -172,7 +172,7 @@ public class Board extends JPanel{
                     }
                 }
 
-                g.drawImage(img[cell], (j * cellSize), (i * cellSize), this);
+                g.drawImage(images[cell], (j * cellSize), (i * cellSize), this);
             }
         }
 
@@ -206,17 +206,17 @@ public class Board extends JPanel{
                 repaint();
             }
 
-            if ((x < cols * cellSize) && (y < rows * cellSize)) {
+            if ((x < numberOfColumns * cellSize) && (y < numberOfRows * cellSize)) {
 
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    if (field[(cRow * cols) + cCol] > cellMine) {
+                    if (field[(cRow * numberOfColumns) + cCol] > cellMine) {
 
                         doRepaint = true;
 
-                        if (field[(cRow * cols) + cCol] <= coveredCellMine) {
+                        if (field[(cRow * numberOfColumns) + cCol] <= coveredCellMine) {
 
                             if (minesLeft > 0) {
-                                field[(cRow * cols) + cCol] += cellFlag;
+                                field[(cRow * numberOfColumns) + cCol] += cellFlag;
                                 minesLeft--;
                                 String msg = Integer.toString(minesLeft);
                                 status.setText(msg);
@@ -225,7 +225,7 @@ public class Board extends JPanel{
                             }
                         } else {
 
-                            field[(cRow * cols) + cCol] -= cellFlag;
+                            field[(cRow * numberOfColumns) + cCol] -= cellFlag;
                             minesLeft++;
                             String msg = Integer.toString(minesLeft);
                             status.setText(msg);
@@ -233,29 +233,29 @@ public class Board extends JPanel{
                     }
 
                 } else {
-                    counter++;
-                    if(counter == 1 && inGame) {
-                        loc = (cRow * cols) + cCol;
+                    clickCounter++;
+                    if(clickCounter == 1 && inGame) {
+                        locationOfFirstClickedCell = (cRow * numberOfColumns) + cCol;
                         //System.out.println(loc);
                         generateMine();
                     }
 
-                    if (field[(cRow * cols) + cCol] > coveredCellMine) {
+                    if (field[(cRow * numberOfColumns) + cCol] > coveredCellMine) {
                         return;
                     }
 
-                    if ((field[(cRow * cols) + cCol] > cellMine)
-                            && (field[(cRow * cols) + cCol] < flaggedCellMine)) {
+                    if ((field[(cRow * numberOfColumns) + cCol] > cellMine)
+                            && (field[(cRow * numberOfColumns) + cCol] < flaggedCellMine)) {
 
-                        field[(cRow * cols) + cCol] -= cellCover;
+                        field[(cRow * numberOfColumns) + cCol] -= cellCover;
                         doRepaint = true;
 
-                        if (field[(cRow * cols) + cCol] == cellMine) {
+                        if (field[(cRow * numberOfColumns) + cCol] == cellMine) {
                             inGame = false;
                         }
 
-                        if (field[(cRow * cols) + cCol] == cellEmpty) {
-                            findEmptyCell((cRow * cols) + cCol); //UPDATE CLICKEDCELL
+                        if (field[(cRow * numberOfColumns) + cCol] == cellEmpty) {
+                            findEmptyCell((cRow * numberOfColumns) + cCol); //UPDATE CLICKEDCELL
                         }
                     }
                 }
@@ -282,16 +282,16 @@ public class Board extends JPanel{
         var random = new Random(); //NEW INSTANCE FOR GENERATING RANDOM NUMBER
         int i = 0;
 
-        while (i < numbOfMines) {
+        while (i < numberOfMines) {
             //nextInt() would produce a specified range making nextDouble() more precise.
             int minesPosition = 0;
-            if(counter == 1) {
+            if(clickCounter == 1) {
                 minesPosition = (int) (allCells * random.nextDouble()); //UNIFORM DISTRIBUTION OF RANDOM POSITION OF MINES
             }
-            if ((minesPosition < allCells) && (field[minesPosition] != coveredCellMine) && minesPosition != loc) { //ENSURE MINE POSITION TO BE IN THE CELL RANGE
+            if ((minesPosition < allCells) && (field[minesPosition] != coveredCellMine) && minesPosition != locationOfFirstClickedCell) { //ENSURE MINE POSITION TO BE IN THE CELL RANGE
                 //System.out.println();
                 //System.out.println("i: " + i + "position: " + minesPosition);
-                int current_col = minesPosition % cols; ////COLUMN INDEX OF THE CELL
+                int current_col = minesPosition % numberOfColumns; ////COLUMN INDEX OF THE CELL
                 field[minesPosition] = coveredCellMine;
                 /*
                  *For example, if position is 7 and cols is 4,
@@ -307,7 +307,7 @@ public class Board extends JPanel{
     public void checkNeighbor(int current_col, int minePosition) {
         int cell;
         if (current_col > 0) {
-            cell = minePosition - 1 - cols  ;                   //ADJACENT CELL IN THE UPPER LEFT POSITION
+            cell = minePosition - 1 - numberOfColumns;                   //ADJACENT CELL IN THE UPPER LEFT POSITION
             if (cell >= 0) {
                 if (field[cell] != coveredCellMine) {
                     field[cell] += 1;
@@ -320,7 +320,7 @@ public class Board extends JPanel{
                 }
             }
 
-            cell = minePosition + cols  - 1;                     //ADJACENT CELL IN THE LOWER LEFT POSITION
+            cell = minePosition + numberOfColumns - 1;                     //ADJACENT CELL IN THE LOWER LEFT POSITION
 
             if (cell < allCells) {
                 if (field[cell] != coveredCellMine) {
@@ -329,7 +329,7 @@ public class Board extends JPanel{
             }
         }
         //UPDATE THE MINE COUNTS FOR ADJACENT ABOVE AND BELOW(RESPECTIVELY) OF THE CURRENT POSITION
-        cell = minePosition - cols;
+        cell = minePosition - numberOfColumns;
 
         if (cell >= 0) {
             if (field[cell] != coveredCellMine) {
@@ -337,15 +337,15 @@ public class Board extends JPanel{
             }
         }
 
-        cell = minePosition + cols;
+        cell = minePosition + numberOfColumns;
         if (cell < allCells) {
             if (field[cell] != coveredCellMine) {
                 field[cell] += 1;
             }
         }
         //UPDATE THE MINE COUNTS FOR ADJACENT CELL TO THE RIGHT OF THE CURRENT POSITION
-        if (current_col < (cols - 1)) {         //CHECK CURRENT POSITION IS NOT OUTSIDE BOARD
-            cell = minePosition - cols + 1;         //ADJACENT CELL IN THE UPPER RIGHT POSITION
+        if (current_col < (numberOfColumns - 1)) {         //CHECK CURRENT POSITION IS NOT OUTSIDE BOARD
+            cell = minePosition - numberOfColumns + 1;         //ADJACENT CELL IN THE UPPER RIGHT POSITION
             if (cell >= 0) {
                 if (field[cell] != coveredCellMine) {
                     field[cell] += 1;
@@ -357,7 +357,7 @@ public class Board extends JPanel{
                     field[cell] += 1;
                 }
             }
-            cell = minePosition + cols + 1;             //ADJACENT CELL IN THE LOWER RIGHT POSITION
+            cell = minePosition + numberOfColumns + 1;             //ADJACENT CELL IN THE LOWER RIGHT POSITION
             if (cell < allCells) {
                 if (field[cell] != coveredCellMine) {
                     field[cell] += 1;
