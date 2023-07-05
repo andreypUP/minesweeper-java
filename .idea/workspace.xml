@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e97c527b-6e4e-41ed-8623-cc42230f7dd8" name="Changes" comment="Identify looping of algorithm">
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+    <list default="true" id="e97c527b-6e4e-41ed-8623-cc42230f7dd8" name="Changes" comment="Organized code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/looping" beforeDir="false" afterPath="$PROJECT_DIR$/looping" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Minesweeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Minesweeper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +22,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="KEEP" />
   </component>
   <component name="ProjectId" id="2Rx3SDsKEa1ZgC5x8dVT1fBxlfX" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -96,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688379790372</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Organized code">
+      <created>1688461758519</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1688461758520</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -115,7 +120,8 @@
     <MESSAGE value="Set up Icon Image" />
     <MESSAGE value="Optimized 1" />
     <MESSAGE value="Identify looping of algorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="Identify looping of algorithm" />
+    <MESSAGE value="Organized code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Organized code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -124,15 +130,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/game/Board.java</url>
-          <line>88</line>
-          <properties class="game.Board" method="findEmptyCell">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

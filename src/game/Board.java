@@ -1,14 +1,13 @@
 package game;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 
 public class Board extends JPanel{
 
@@ -28,7 +27,7 @@ public class Board extends JPanel{
     private final int drawWrongFlag = 12;
 
 
-    private final int numbOfMines = 40;
+    private final int numbOfMines = 254;
     private final int rows = 16;
     private final int cols = 16;
 
@@ -42,7 +41,8 @@ public class Board extends JPanel{
     private Image[] img;
     private int allCells;
     private final JLabel status;
-
+    private int counter;
+    private int loc;
 
     public Board(JLabel status) {
 
@@ -63,12 +63,10 @@ public class Board extends JPanel{
         }
         newGame();
         addMouseListener(new MinesAdapter());
-
     }
 
     private void newGame() {
-
-
+        counter = 0;
         inGame = true;                  //GAME IN PROGRESS
         minesLeft = numbOfMines;
 
@@ -81,10 +79,7 @@ public class Board extends JPanel{
         }
 
         status.setText(Integer.toString(minesLeft));       //DISPLAY MINES LEFT
-        
-        generateMine();                                     //METHOD FOR GENERATING MINE
 
-        
     }
     private void findEmptyCell(int clickedCell) {
 
@@ -143,9 +138,9 @@ public class Board extends JPanel{
 
         int uncover = 0;
 
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < rows; i++) { //UP TO ROWS (HORIZONTALLY)
 
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < cols; j++) { //UP TO COLUMN (VERTICALLY)
 
                 int cell = field[(i * cols) + j];
 
@@ -173,7 +168,7 @@ public class Board extends JPanel{
                     } else if (cell > cellMine) {
                         cell = drawCover;
                         uncover++;
-                        System.out.println(uncover);
+                       // System.out.println(uncover);
                     }
                 }
 
@@ -188,6 +183,7 @@ public class Board extends JPanel{
 
         } else if (!inGame) {
             status.setText("Game Over!");
+            Toolkit.getDefaultToolkit().beep();
         }
     }
     private class MinesAdapter extends MouseAdapter {
@@ -197,7 +193,8 @@ public class Board extends JPanel{
 
             int x = e.getX();
             int y = e.getY();
-
+            System.out.println(x);
+            System.out.println(y);
             int cCol = x / cellSize;
             int cRow = y / cellSize;
 
@@ -212,7 +209,6 @@ public class Board extends JPanel{
             if ((x < cols * cellSize) && (y < rows * cellSize)) {
 
                 if (e.getButton() == MouseEvent.BUTTON3) {
-
                     if (field[(cRow * cols) + cCol] > cellMine) {
 
                         doRepaint = true;
@@ -237,9 +233,14 @@ public class Board extends JPanel{
                     }
 
                 } else {
+                    counter++;
+                    if(counter == 1 && inGame) {
+                        loc = (cRow * cols) + cCol;
+                        //System.out.println(loc);
+                        generateMine();
+                    }
 
                     if (field[(cRow * cols) + cCol] > coveredCellMine) {
-
                         return;
                     }
 
@@ -258,7 +259,7 @@ public class Board extends JPanel{
                         }
                     }
                 }
-
+                //System.out.println(counter);
                 if (doRepaint) {
                     repaint();
                 }
@@ -283,40 +284,43 @@ public class Board extends JPanel{
 
         while (i < numbOfMines) {
             //nextInt() would produce a specified range making nextDouble() more precise.
-            int position = (int) (allCells * random.nextDouble()); //UNIFORM DISTRIBUTION OF RANDOM POSITION OF MINES
-
-            if ((position < allCells) && (field[position] != coveredCellMine)) { //ENSURE MINE POSITION TO BE IN THE CELL RANGE
-
-                int current_col = position % cols; ////COLUMN INDEX OF THE CELL
-                field[position] = coveredCellMine;
+            int minesPosition = 0;
+            if(counter == 1) {
+                minesPosition = (int) (allCells * random.nextDouble()); //UNIFORM DISTRIBUTION OF RANDOM POSITION OF MINES
+            }
+            if ((minesPosition < allCells) && (field[minesPosition] != coveredCellMine) && minesPosition != loc) { //ENSURE MINE POSITION TO BE IN THE CELL RANGE
+                //System.out.println();
+                //System.out.println("i: " + i + "position: " + minesPosition);
+                int current_col = minesPosition % cols; ////COLUMN INDEX OF THE CELL
+                field[minesPosition] = coveredCellMine;
                 /*
                  *For example, if position is 7 and cols is 4,
                  *  then position % cols will be 3, indicating that the cell
                  * is in the third column of the field.
                  * */
-                checkNeighbor(current_col,position);
+                checkNeighbor(current_col, minesPosition);
                 i++;
                 //UPDATE THE MINE COUNTS FOR ADJACENT CELL TO THE LEFT OF THE CURRENT POSITION
             }
         }
     }
-    public void checkNeighbor(int current_col, int position) {
+    public void checkNeighbor(int current_col, int minePosition) {
         int cell;
         if (current_col > 0) {
-            cell = position - 1 - cols  ;                   //ADJACENT CELL IN THE UPPER LEFT POSITION
+            cell = minePosition - 1 - cols  ;                   //ADJACENT CELL IN THE UPPER LEFT POSITION
             if (cell >= 0) {
                 if (field[cell] != coveredCellMine) {
                     field[cell] += 1;
                 }
             }
-            cell = position - 1;                            //ADJACENT CELL IN THE LEFT POSITION
+            cell = minePosition - 1;                            //ADJACENT CELL IN THE LEFT POSITION
             if (cell >= 0) {
                 if (field[cell] != coveredCellMine) {
                     field[cell] += 1;
                 }
             }
 
-            cell = position + cols  - 1;                     //ADJACENT CELL IN THE LOWER LEFT POSITION
+            cell = minePosition + cols  - 1;                     //ADJACENT CELL IN THE LOWER LEFT POSITION
 
             if (cell < allCells) {
                 if (field[cell] != coveredCellMine) {
@@ -325,7 +329,7 @@ public class Board extends JPanel{
             }
         }
         //UPDATE THE MINE COUNTS FOR ADJACENT ABOVE AND BELOW(RESPECTIVELY) OF THE CURRENT POSITION
-        cell = position - cols;
+        cell = minePosition - cols;
 
         if (cell >= 0) {
             if (field[cell] != coveredCellMine) {
@@ -333,7 +337,7 @@ public class Board extends JPanel{
             }
         }
 
-        cell = position + cols;
+        cell = minePosition + cols;
         if (cell < allCells) {
             if (field[cell] != coveredCellMine) {
                 field[cell] += 1;
@@ -341,19 +345,19 @@ public class Board extends JPanel{
         }
         //UPDATE THE MINE COUNTS FOR ADJACENT CELL TO THE RIGHT OF THE CURRENT POSITION
         if (current_col < (cols - 1)) {         //CHECK CURRENT POSITION IS NOT OUTSIDE BOARD
-            cell = position - cols + 1;         //ADJACENT CELL IN THE UPPER RIGHT POSITION
+            cell = minePosition - cols + 1;         //ADJACENT CELL IN THE UPPER RIGHT POSITION
             if (cell >= 0) {
                 if (field[cell] != coveredCellMine) {
                     field[cell] += 1;
                 }
             }
-            cell = position + 1;                    //ADJACENT CELL IN THE RIGHT POSITION
+            cell = minePosition + 1;                    //ADJACENT CELL IN THE RIGHT POSITION
             if (cell < allCells) {
                 if (field[cell] != coveredCellMine) {
                     field[cell] += 1;
                 }
             }
-            cell = position + cols + 1;             //ADJACENT CELL IN THE LOWER RIGHT POSITION
+            cell = minePosition + cols + 1;             //ADJACENT CELL IN THE LOWER RIGHT POSITION
             if (cell < allCells) {
                 if (field[cell] != coveredCellMine) {
                     field[cell] += 1;
