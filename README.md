@@ -1,6 +1,7 @@
 ### Minesweeper Game - Java Swing Implementation
 
 ![image](https://github.com/user-attachments/assets/4451589d-337f-4596-8250-ce140767a730)
+
 *A classic Minesweeper game built with Java Swing.*
 
 ---
@@ -71,23 +72,29 @@ Minesweeper is a classic single-player puzzle game where the player's goal is to
    javac Main.java
    java Main
 
-🧩 Challenges & Solutions
-Challenge	Solution
-Mine Generation Bug	Implemented a click counter to generate mines only after the first click.
-Board Dimensions	Used dynamic formulas to calculate cell positions based on rows/columns.
-Neighbor-Checking Logic	Applied indirect recursion to reveal all adjacent empty cells.
+## 🧩 Challenges & Solutions
+
+| Challenge               | Solution                                                                 |
+|-------------------------|--------------------------------------------------------------------------|
+| Mine Generation Bug     | Implemented a click counter to generate mines only after the first click.|
+| Board Dimensions        | Used dynamic formulas to calculate cell positions based on rows/columns.|
+| Neighbor-Checking Logic | Applied indirect recursion to reveal all adjacent empty cells.           |
 
 
 🔮 Future Enhancements
-Timer: Track and display game completion time.
+- **Timer**: Track and display game completion time.
 
-High Scores: Integrate a database to save top scores.
-UI Improvements: Modernize the interface with animations and sound effects.
+- **High Scores**: Integrate a database to save top scores.
+
+- **UI Improvements**: Modernize the interface with animations and sound effects.
+
 Code Refactoring: Use POJO and design patterns for better scalability.
 
 📚 References & Credits
+
 Developers:
 
 Tristan Jadman 
+
 Mark Andrey Acebu 
 
