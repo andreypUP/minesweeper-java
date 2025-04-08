@@ -90,11 +90,11 @@ Minesweeper is a classic single-player puzzle game where the player's goal is to
 
 Code Refactoring: Use POJO and design patterns for better scalability.
 
+For detailed technical explanations, see Technical Report file.
+
+
 📚 References & Credits
 
-Developers:
-
-Tristan Jadman 
-
-Mark Andrey Acebu 
-
+### Developers:
+- **Tristan Jadman** [@Seuketchi](https://github.com/Seuketchi)
+- **Mark Andrey Acebu** [@andreypUP](https://github.com/andreypUP)
